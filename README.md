@@ -34,45 +34,6 @@ This tool allows users to format, validate, minify, view, copy, download, and sh
 * **CSS3**
 * **JavaScript (ES6+)**
 
-No external frameworks or libraries are required.
-
-## 📂 Project Structure
-
-```text
-json-formatter/
-│
-├── index.html
-└── README.md
-```
-
-The entire application is currently contained inside `index.html`.
-
-## 💻 Getting Started
-
-### 1. Clone the repository
-
-```bash
-git clone https://github.com/your-username/json-formatter.git
-```
-
-### 2. Open the project
-
-```bash
-cd json-formatter
-```
-
-### 3. Run the application
-
-Open:
-
-```text
-index.html
-```
-
-in any modern web browser.
-
-No Node.js, database, API, or server is required.
-
 ## 📋 How to Use
 
 ### Format JSON
@@ -227,28 +188,6 @@ Example title:
 JSON Formatter & Validator Online - Free JSON Tool
 ```
 
-## 💰 Monetization
-
-The project includes non-intrusive advertisement placeholders that can be replaced with advertising network code such as **Monetag**.
-
-Recommended approach:
-
-```text
-User
-  ↓
-Google / Search / Social
-  ↓
-JSON Formatter
-  ↓
-Uses Free Tool
-  ↓
-Advertisement
-  ↓
-Revenue
-```
-
-Avoid placing advertisements directly over important controls or making ads look like download/format buttons.
-
 ## 🚀 Future Improvements
 
 Potential future features include:
@@ -273,85 +212,9 @@ Potential future features include:
 * [ ] Recent files
 * [ ] PWA support
 
-## 🌐 Deployment
-
-Because this is a static HTML/CSS/JavaScript application, it can be deployed on many static hosting platforms.
-
-Typical deployment process:
-
-```text
-Upload index.html
-       ↓
-Configure domain
-       ↓
-Enable HTTPS
-       ↓
-Submit website to search engines
-       ↓
-Add analytics
-       ↓
-Add Monetag
-       ↓
-Start building organic traffic
-```
-
-## 📊 Project Goal
-
-The long-term goal is to expand this single tool into a complete collection of free developer and data utilities.
-
-Possible future categories:
-
-```text
-DataToolKit
-│
-├── JSON Tools
-├── CSV Tools
-├── SQL Tools
-├── Excel Tools
-├── Text Tools
-├── Developer Tools
-├── Data Analysis Tools
-└── Career Tools
-```
-
-## 🤝 Contributing
-
-Contributions are welcome.
-
-To contribute:
-
-1. Fork the repository.
-2. Create a new branch.
-
-```bash
-git checkout -b feature/new-tool
-```
-
-3. Make your changes.
-4. Test the application.
-5. Commit your changes.
-
-```bash
-git commit -m "Add new JSON tool"
-```
-
-6. Push the branch.
-
-```bash
-git push origin feature/new-tool
-```
-
-7. Open a Pull Request.
-
-## 📄 License
-
-This project is available for personal and commercial use.
-
-You may modify and extend the project according to the license you choose for your repository.
-
 ## 👨‍💻 Author
 
-**DataToolKit**
+**Rafeek M B**
 
 Built with ❤️ using HTML, CSS and JavaScript.
 
