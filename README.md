@@ -212,6 +212,10 @@ Potential future features include:
 * [ ] Recent files
 * [ ] PWA support
 
+## Live Demo 
+
+https://biradarrafeek.github.io/JSON-Formatter/ 
+
 ## 👨‍💻 Author
 
 **Rafeek M B**
