@@ -1,0 +1,887 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JSON Formatter & Validator Online - Free JSON Tool</title>
+    <meta
+      name="description"
+      content="Free online JSON formatter, validator, minifier and tree viewer. Upload, drag and drop, format, validate, copy and download JSON securely in your browser."
+    />
+    <meta
+      name="keywords"
+      content="JSON formatter, JSON validator, JSON beautifier, JSON minifier, JSON viewer, JSON tree viewer, JSON tool"
+    />
+    <style>
+      :root {
+        --bg: #f4f7fb;
+        --card: #fff;
+        --text: #172033;
+        --muted: #667085;
+        --border: #d9e0ea;
+        --primary: #2563eb;
+        --success: #15803d;
+        --danger: #dc2626;
+        --purple: #7c3aed;
+        --header: #101828;
+        --input: #0b1220;
+        --code: #e9eef5;
+      }
+      [data-theme="dark"] {
+        --bg: #0b1120;
+        --card: #111827;
+        --text: #e5e7eb;
+        --muted: #aab3c2;
+        --border: #2d3748;
+        --header: #050914;
+        --input: #070b14;
+        --code: #182131;
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family: Inter, Arial, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.6;
+        transition: 0.2s;
+      }
+      header {
+        background: var(--header);
+        color: #fff;
+        padding: 16px 20px;
+        position: sticky;
+        top: 0;
+        z-index: 20;
+      }
+      .header-container {
+        max-width: 1200px;
+        margin: auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+      }
+      .logo {
+        font-size: 21px;
+        font-weight: 800;
+      }
+      nav {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+      }
+      nav a {
+        color: #fff;
+        text-decoration: none;
+        font-size: 14px;
+      }
+      .theme-btn {
+        background: transparent;
+        border: 1px solid #526070;
+        color: #fff;
+        padding: 8px 11px;
+        border-radius: 7px;
+        cursor: pointer;
+      }
+      .container {
+        max-width: 1200px;
+        margin: 34px auto;
+        padding: 0 20px;
+      }
+      .hero {
+        text-align: center;
+        margin-bottom: 25px;
+      }
+      .hero h1 {
+        font-size: 36px;
+        line-height: 1.2;
+        margin-bottom: 9px;
+      }
+      .hero p {
+        color: var(--muted);
+      }
+      .ad-slot {
+        border: 1px dashed var(--border);
+        background: var(--card);
+        color: var(--muted);
+        min-height: 76px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 10px;
+        margin: 18px 0;
+        font-size: 12px;
+      }
+      .tool-box,
+      .info-section {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 22px;
+        box-shadow: 0 5px 24px rgba(16, 24, 40, 0.06);
+      }
+      .toolbar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 9px;
+        margin-bottom: 15px;
+      }
+      button {
+        border: 0;
+        padding: 10px 15px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 700;
+      }
+      button:hover {
+        filter: brightness(0.96);
+      }
+      .format-btn {
+        background: var(--primary);
+        color: #fff;
+      }
+      .validate-btn {
+        background: #16a34a;
+        color: #fff;
+      }
+      .minify-btn {
+        background: var(--purple);
+        color: #fff;
+      }
+      .copy-btn {
+        background: #344054;
+        color: #fff;
+      }
+      .download-btn {
+        background: #0891b2;
+        color: #fff;
+      }
+      .clear-btn {
+        background: var(--danger);
+        color: #fff;
+      }
+      .secondary-btn {
+        background: var(--code);
+        color: var(--text);
+      }
+      .drop-zone {
+        border: 2px dashed var(--border);
+        border-radius: 10px;
+        padding: 12px;
+        text-align: center;
+        color: var(--muted);
+        margin-bottom: 16px;
+        cursor: pointer;
+      }
+      .drop-zone.dragover {
+        border-color: var(--primary);
+        background: rgba(37, 99, 235, 0.06);
+      }
+      .editor-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 18px;
+      }
+      .editor-section h2 {
+        font-size: 17px;
+        margin-bottom: 8px;
+      }
+      .editor-wrap {
+        position: relative;
+        background: var(--input);
+        border-radius: 10px;
+        overflow: hidden;
+        border: 1px solid var(--border);
+      }
+      .editor {
+        display: grid;
+        grid-template-columns: 48px 1fr;
+        height: 470px;
+      }
+      .line-numbers {
+        background: rgba(255, 255, 255, 0.04);
+        color: #8792a5;
+        text-align: right;
+        padding: 14px 10px;
+        font:
+          14px/1.65 Consolas,
+          monospace;
+        overflow: hidden;
+        user-select: none;
+        white-space: pre;
+      }
+      textarea {
+        width: 100%;
+        height: 100%;
+        resize: none;
+        padding: 14px;
+        border: 0;
+        outline: 0;
+        background: transparent;
+        color: #e8edf5;
+        font:
+          14px/1.65 Consolas,
+          monospace;
+        tab-size: 2;
+      }
+      .output-box {
+        height: 470px;
+        overflow: auto;
+        background: var(--input);
+        border-radius: 10px;
+        border: 1px solid var(--border);
+      }
+      pre {
+        margin: 0;
+        padding: 14px;
+        color: #e8edf5;
+        font:
+          14px/1.65 Consolas,
+          monospace;
+        white-space: pre-wrap;
+        word-break: break-word;
+      }
+      .json-key {
+        color: #8ab4ff;
+      }
+      .json-string {
+        color: #b8e986;
+      }
+      .json-number {
+        color: #ffd580;
+      }
+      .json-boolean {
+        color: #ff9ec4;
+      }
+      .json-null {
+        color: #c4a7ff;
+      }
+      .status {
+        margin-top: 15px;
+        padding: 12px;
+        border-radius: 8px;
+        display: none;
+        font-size: 14px;
+      }
+      .success {
+        display: block;
+        background: rgba(22, 163, 74, 0.12);
+        color: #15803d;
+        border: 1px solid rgba(22, 163, 74, 0.3);
+      }
+      .error {
+        display: block;
+        background: rgba(220, 38, 38, 0.12);
+        color: #dc2626;
+        border: 1px solid rgba(220, 38, 38, 0.3);
+      }
+      .tabs {
+        display: flex;
+        gap: 7px;
+        margin-top: 14px;
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 8px;
+      }
+      .tab.active {
+        background: var(--primary);
+        color: #fff;
+      }
+      .tab {
+        background: var(--code);
+        color: var(--text);
+      }
+      .tree {
+        padding: 14px;
+        font:
+          14px Consolas,
+          monospace;
+      }
+      .tree ul {
+        list-style: none;
+        margin-left: 20px;
+        padding-left: 15px;
+        border-left: 1px solid var(--border);
+      }
+      .tree-node {
+        margin: 4px 0;
+      }
+      .toggle {
+        cursor: pointer;
+        font-weight: 700;
+      }
+      .tree-key {
+        color: #60a5fa;
+      }
+      .tree-value {
+        color: #16a34a;
+      }
+      .tree-number {
+        color: #d97706;
+      }
+      .tree-bool {
+        color: #db2777;
+      }
+      .tree-null {
+        color: #7c3aed;
+      }
+      .hidden {
+        display: none;
+      }
+      .info-section {
+        margin-top: 28px;
+      }
+      .info-section h2 {
+        margin: 20px 0 8px;
+      }
+      .info-section h2:first-child {
+        margin-top: 0;
+      }
+      .info-section p {
+        color: var(--muted);
+        margin-bottom: 12px;
+      }
+      .info-section ul {
+        margin-left: 22px;
+        color: var(--muted);
+      }
+      details {
+        border-top: 1px solid var(--border);
+        padding: 13px 0;
+      }
+      .faq-q {
+        font-weight: 700;
+        cursor: pointer;
+      }
+      footer {
+        margin-top: 45px;
+        padding: 25px;
+        text-align: center;
+        background: var(--header);
+        color: #aab3c2;
+        font-size: 14px;
+      }
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+      @media (max-width: 800px) {
+        .header-container {
+          flex-direction: column;
+        }
+        .editor-grid {
+          grid-template-columns: 1fr;
+        }
+        .hero h1 {
+          font-size: 29px;
+        }
+        .editor,
+        .output-box {
+          height: 360px;
+        }
+        .toolbar button {
+          flex: 1 1 30%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="header-container">
+        <div class="logo">DataToolKit</div>
+        <nav>
+          <a href="#">Home</a><a href="#tools">JSON Tool</a
+          ><a href="#faq">FAQ</a>
+          <button class="theme-btn" id="themeBtn" onclick="toggleTheme()">
+            🌙 Dark
+          </button>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container">
+      <section class="hero">
+        <h1>JSON Formatter & Validator</h1>
+        <p>
+          Format, validate, minify, view, upload and download JSON instantly —
+          right in your browser.
+        </p>
+      </section>
+
+      <div class="ad-slot" aria-label="Advertisement">Advertisement</div>
+
+      <section class="tool-box" id="tools">
+        <div class="drop-zone" id="dropZone">
+          📁 <strong>Drag & drop a .json file here</strong> or click to choose a
+          file
+          <input
+            id="fileInput"
+            class="sr-only"
+            type="file"
+            accept=".json,application/json"
+          />
+        </div>
+
+        <div class="toolbar">
+          <button class="format-btn" onclick="formatJSON()">Format JSON</button>
+          <button class="validate-btn" onclick="validateJSON()">
+            Validate
+          </button>
+          <button class="minify-btn" onclick="minifyJSON()">Minify</button>
+          <button class="copy-btn" onclick="copyJSON()">Copy</button>
+          <button class="download-btn" onclick="downloadJSON()">
+            Download
+          </button>
+          <button class="clear-btn" onclick="clearJSON()">Clear</button>
+          <button class="secondary-btn" onclick="loadExample()">Example</button>
+          <button class="secondary-btn" onclick="shareJSON()">Share</button>
+        </div>
+
+        <div class="editor-grid">
+          <div class="editor-section">
+            <h2>JSON Input</h2>
+            <div class="editor-wrap">
+              <div class="editor">
+                <div class="line-numbers" id="lineNumbers">1</div>
+                <textarea
+                  id="jsonInput"
+                  spellcheck="false"
+                  aria-label="JSON input"
+                  placeholder='Paste JSON here...
+
+Example:
+{
+  "name": "John",
+  "age": 25,
+  "skills": ["HTML", "CSS", "JavaScript"]
+}'
+                ></textarea>
+              </div>
+            </div>
+          </div>
+
+          <div class="editor-section">
+            <h2>Result</h2>
+            <div class="output-box">
+              <pre id="jsonOutput">Your formatted JSON will appear here...</pre>
+              <div id="treeOutput" class="tree hidden"></div>
+            </div>
+            <div class="tabs">
+              <button class="tab active" id="codeTab" onclick="showTab('code')">
+                Code
+              </button>
+              <button class="tab" id="treeTab" onclick="showTab('tree')">
+                Tree Viewer
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div id="status" class="status"></div>
+      </section>
+
+      <div class="ad-slot" aria-label="Advertisement">Advertisement</div>
+
+      <section class="info-section">
+        <h2>What is a JSON Formatter?</h2>
+        <p>
+          A JSON formatter converts compact or difficult-to-read JSON into a
+          properly indented, readable structure.
+        </p>
+
+        <h2>Is my JSON uploaded?</h2>
+        <p>
+          No. Formatting, validation, tree viewing and file processing happen
+          locally in your browser. This page does not send your JSON to a
+          server.
+        </p>
+
+        <h2>Features</h2>
+        <ul>
+          <li>JSON syntax highlighting and readable formatting</li>
+          <li>Line numbers for easier debugging</li>
+          <li>Drag-and-drop JSON file upload</li>
+          <li>Format, validate and minify JSON</li>
+          <li>Copy and download formatted JSON</li>
+          <li>Interactive JSON Tree Viewer</li>
+          <li>Error message with line and column estimate</li>
+          <li>Light and dark mode</li>
+          <li>Shareable URL for small JSON payloads</li>
+          <li>Responsive mobile-friendly design</li>
+        </ul>
+      </section>
+
+      <section class="info-section" id="faq">
+        <h2>Frequently Asked Questions</h2>
+        <details>
+          <summary class="faq-q">What is JSON?</summary>
+          <p>
+            JSON (JavaScript Object Notation) is a lightweight text format
+            commonly used to exchange structured data between applications.
+          </p>
+        </details>
+        <details>
+          <summary class="faq-q">How do I format JSON?</summary>
+          <p>
+            Paste your JSON into the input editor and click “Format JSON”. The
+            tool validates it first and then creates an indented version.
+          </p>
+        </details>
+        <details>
+          <summary class="faq-q">How do I validate JSON?</summary>
+          <p>
+            Paste JSON and select “Validate”. If the syntax is incorrect, the
+            tool displays the parser error and an estimated location.
+          </p>
+        </details>
+        <details>
+          <summary class="faq-q">Can I upload a JSON file?</summary>
+          <p>
+            Yes. Drag a .json file into the upload area or click it to select a
+            file from your device.
+          </p>
+        </details>
+        <details>
+          <summary class="faq-q">Can I download formatted JSON?</summary>
+          <p>
+            Yes. After formatting or minifying, click “Download” to save the
+            result as a JSON file.
+          </p>
+        </details>
+        <details>
+          <summary class="faq-q">Is this JSON formatter free?</summary>
+          <p>
+            Yes. The core formatter, validator, minifier and viewer are free to
+            use.
+          </p>
+        </details>
+      </section>
+    </main>
+
+    <footer>© 2026 DataToolKit. All Rights Reserved.</footer>
+
+    <script>
+      const input = document.getElementById("jsonInput");
+      const output = document.getElementById("jsonOutput");
+      const treeOutput = document.getElementById("treeOutput");
+      const status = document.getElementById("status");
+      const lineNumbers = document.getElementById("lineNumbers");
+      const dropZone = document.getElementById("dropZone");
+      const fileInput = document.getElementById("fileInput");
+
+      function showStatus(message, type) {
+        status.textContent = message;
+        status.className = "status " + type;
+      }
+      function getJSON() {
+        const text = input.value.trim();
+        if (!text) {
+          showStatus("Please enter JSON data.", "error");
+          return null;
+        }
+        try {
+          return JSON.parse(text);
+        } catch (error) {
+          const pos = parseErrorPosition(error.message, text);
+          showStatus(
+            "✗ Invalid JSON: " +
+              error.message +
+              (pos ? ` (around line ${pos.line}, column ${pos.column})` : ""),
+            "error",
+          );
+          return null;
+        }
+      }
+      function parseErrorPosition(message, text) {
+        const m = message.match(/position (\\d+)/i);
+        if (!m) return null;
+        const index = Number(m[1]);
+        const before = text.slice(0, index);
+        const line = before.split("\\n").length;
+        const column = index - (before.lastIndexOf("\\n") + 1) + 1;
+        return { line, column };
+      }
+      function syntaxHighlight(json) {
+        const escaped = json
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;");
+        return escaped.replace(
+          /("(\\\\u[a-fA-F0-9]{4}|\\\\[^u]|[^\\\\"])*"(\\s*:)?|\\b(true|false)\\b|\\b(null)\\b|-?\\b\\d+(?:\\.\\d+)?(?:[eE][+-]?\\d+)?\\b)/g,
+          (match) => {
+            let cls = "json-number";
+            if (/^"/.test(match))
+              cls = /:$/.test(match) ? "json-key" : "json-string";
+            else if (/true|false/.test(match)) cls = "json-boolean";
+            else if (/null/.test(match)) cls = "json-null";
+            return `<span class="${cls}">${match}</span>`;
+          },
+        );
+      }
+      function render(json, pretty = true) {
+        const text = pretty
+          ? JSON.stringify(json, null, 2)
+          : JSON.stringify(json);
+        output.innerHTML = syntaxHighlight(text);
+        output.dataset.raw = text;
+      }
+      function formatJSON() {
+        const json = getJSON();
+        if (json === null) return;
+        render(json, true);
+        showTab("code");
+        showStatus("✓ Valid JSON. Successfully formatted.", "success");
+      }
+      function validateJSON() {
+        const json = getJSON();
+        if (json === null) return;
+        showStatus("✓ Valid JSON. Your JSON syntax is correct.", "success");
+      }
+      function minifyJSON() {
+        const json = getJSON();
+        if (json === null) return;
+        render(json, false);
+        showTab("code");
+        showStatus("✓ JSON successfully minified.", "success");
+      }
+      async function copyJSON() {
+        const raw = output.dataset.raw || "";
+        if (!raw) {
+          showStatus("Nothing to copy.", "error");
+          return;
+        }
+        try {
+          await navigator.clipboard.writeText(raw);
+          showStatus("✓ JSON copied to clipboard.", "success");
+        } catch (e) {
+          showStatus("Unable to copy JSON.", "error");
+        }
+      }
+      function downloadJSON() {
+        const raw = output.dataset.raw || "";
+        if (!raw) {
+          showStatus("Nothing to download.", "error");
+          return;
+        }
+        const blob = new Blob([raw], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "formatted-data.json";
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+        showStatus("✓ JSON file downloaded.", "success");
+      }
+      function clearJSON() {
+        input.value = "";
+        output.innerHTML = "Your formatted JSON will appear here...";
+        output.dataset.raw = "";
+        treeOutput.innerHTML = "";
+        status.className = "status";
+        updateLineNumbers();
+      }
+      function loadExample() {
+        input.value = JSON.stringify(
+          {
+            name: "John Doe",
+            age: 25,
+            active: true,
+            skills: ["HTML", "CSS", "JavaScript"],
+            address: { city: "Bengaluru", country: "India" },
+          },
+          null,
+          2,
+        );
+        updateLineNumbers();
+        formatJSON();
+      }
+      function showTab(tab) {
+        const code = tab === "code";
+        output.classList.toggle("hidden", !code);
+        treeOutput.classList.toggle("hidden", code);
+        document.getElementById("codeTab").classList.toggle("active", code);
+        document.getElementById("treeTab").classList.toggle("active", !code);
+        if (!code) {
+          const json = getJSON();
+          if (json !== null) treeOutput.innerHTML = buildTree(json);
+        }
+      }
+      function buildTree(value) {
+        const container = document.createElement("div");
+        container.appendChild(treeNode(value, null));
+        return container.innerHTML;
+      }
+      function treeNode(value, key) {
+        const row = document.createElement("div");
+        row.className = "tree-node";
+        if (value !== null && typeof value === "object") {
+          const isArray = Array.isArray(value),
+            entries = Object.entries(value);
+          const toggle = document.createElement("span");
+          toggle.className = "toggle";
+          toggle.textContent = "▼ ";
+          const label = document.createElement("span");
+          label.className = "tree-key";
+          label.textContent = key !== null ? `${key}: ` : "";
+          row.append(
+            toggle,
+            label,
+            document.createTextNode(isArray ? "[" : "{"),
+          );
+          const ul = document.createElement("ul");
+          entries.forEach(([k, v]) =>
+            ul.insertAdjacentHTML("beforeend", treeNode(v, k)),
+          );
+          row.appendChild(ul);
+          row.insertAdjacentText("beforeend", isArray ? "]" : "}");
+          toggle.onclick = () => {
+            ul.hidden = !ul.hidden;
+            toggle.textContent = ul.hidden ? "▶ " : "▼ ";
+          };
+        } else {
+          if (key !== null) {
+            const k = document.createElement("span");
+            k.className = "tree-key";
+            k.textContent = key + ": ";
+            row.appendChild(k);
+          }
+          const v = document.createElement("span");
+          v.className =
+            value === null
+              ? "tree-null"
+              : typeof value === "number"
+                ? "tree-number"
+                : typeof value === "boolean"
+                  ? "tree-bool"
+                  : "tree-value";
+          v.textContent = JSON.stringify(value);
+          row.appendChild(v);
+        }
+        return row.outerHTML;
+      }
+      function updateLineNumbers() {
+        const count = Math.max(1, input.value.split("\\n").length);
+        lineNumbers.textContent = Array.from(
+          { length: count },
+          (_, i) => i + 1,
+        ).join("\\n");
+      }
+      input.addEventListener("input", updateLineNumbers);
+      input.addEventListener("scroll", () => {
+        lineNumbers.scrollTop = input.scrollTop;
+      });
+      input.addEventListener("keydown", (e) => {
+        if (e.ctrlKey && e.key === "Enter") formatJSON();
+        if (e.key === "Tab") {
+          e.preventDefault();
+          const s = input.selectionStart;
+          input.value =
+            input.value.slice(0, s) +
+            "  " +
+            input.value.slice(input.selectionEnd);
+          input.selectionStart = input.selectionEnd = s + 2;
+          updateLineNumbers();
+        }
+      });
+      dropZone.addEventListener("click", () => fileInput.click());
+      ["dragenter", "dragover"].forEach((ev) =>
+        dropZone.addEventListener(ev, (e) => {
+          e.preventDefault();
+          dropZone.classList.add("dragover");
+        }),
+      );
+      ["dragleave", "drop"].forEach((ev) =>
+        dropZone.addEventListener(ev, (e) => {
+          e.preventDefault();
+          dropZone.classList.remove("dragover");
+        }),
+      );
+      dropZone.addEventListener("drop", (e) => {
+        const file = e.dataTransfer.files[0];
+        if (file) readJSONFile(file);
+      });
+      fileInput.addEventListener("change", (e) => {
+        if (e.target.files[0]) readJSONFile(e.target.files[0]);
+      });
+      function readJSONFile(file) {
+        if (!file.name.toLowerCase().endsWith(".json")) {
+          showStatus("Please select a .json file.", "error");
+          return;
+        }
+        const reader = new FileReader();
+        reader.onload = () => {
+          input.value = reader.result;
+          updateLineNumbers();
+          formatJSON();
+        };
+        reader.onerror = () => showStatus("Unable to read the file.", "error");
+        reader.readAsText(file);
+      }
+      async function shareJSON() {
+        const raw = input.value.trim();
+        if (!raw) {
+          showStatus("Enter JSON before sharing.", "error");
+          return;
+        }
+        try {
+          JSON.parse(raw);
+          const encoded = btoa(unescape(encodeURIComponent(raw)));
+          if (encoded.length > 7000) {
+            showStatus(
+              "This JSON is too large for a shareable URL. Copy or download it instead.",
+              "error",
+            );
+            return;
+          }
+          const url = location.origin + location.pathname + "#json=" + encoded;
+          await navigator.clipboard.writeText(url);
+          history.replaceState(null, "", "#json=" + encoded);
+          showStatus("✓ Shareable URL copied to clipboard.", "success");
+        } catch (e) {
+          showStatus("Cannot create a share link: JSON is invalid.", "error");
+        }
+      }
+      function loadSharedJSON() {
+        const hash = location.hash;
+        if (!hash.startsWith("#json=")) return;
+        try {
+          input.value = decodeURIComponent(escape(atob(hash.slice(6))));
+          updateLineNumbers();
+          formatJSON();
+        } catch (e) {
+          showStatus("The share URL contains invalid data.", "error");
+        }
+      }
+      function toggleTheme() {
+        const dark = document.documentElement.dataset.theme === "dark";
+        document.documentElement.dataset.theme = dark ? "" : "dark";
+        localStorage.setItem("jsonTheme", dark ? "light" : "dark");
+        document.getElementById("themeBtn").textContent = dark
+          ? "🌙 Dark"
+          : "☀️ Light";
+      }
+      (function initTheme() {
+        const theme = localStorage.getItem("jsonTheme");
+        if (theme === "dark") {
+          document.documentElement.dataset.theme = "dark";
+          document.getElementById("themeBtn").textContent = "☀️ Light";
+        }
+        updateLineNumbers();
+        loadSharedJSON();
+      })();
+    </script>
+  </body>
+</html>
